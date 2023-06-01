@@ -1,0 +1,19 @@
+name: release CI, CD workflow 
+on: 
+  push:
+    branches: [ "release" ]
+  pull_request:
+    branches: [ "release" ]
+jobs:
+  release_ci_cd:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+      - name: nmp install
+        run: npm install
+      - name: update mongodb key in nodejs
+        run: sed -i 's/{MONGODB}/${{secrets.MONGODB}}/g' index.js
